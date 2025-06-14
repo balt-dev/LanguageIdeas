@@ -1,0 +1,45 @@
+?? file: main.fisp
+
+?[
+    this is a demonstration
+    of a simple closure-based counter
+]
+
+(import [io] std.io)
+(set [counter]
+    (fn [x] (last
+        (set [x] 0)
+        (fn [] (last
+            =[temp] x
+            =[x] (+ x 1)
+            temp
+        ))
+    )))
+
+(last
+    (set [c] (counter))
+    (io.println "{}" (c)) ?? prints 0
+    (io.println "{}" (c)) ?? prints 1
+    (io.println "{}" (c)) ?? prints 2
+    (io.println "{}" (c)) ?? prints 3
+    (io.println "{}" (c)) ?? prints 4
+    0
+)
+
+?? -------------
+
+?? modules could probably be defined like this:
+
+?? file: mod.fisp
+module {
+    [add]: (fn [x y] (+ x y))
+    [subtract]: (fn [x y] (- x y))
+    [trig]: $ {
+        [sin]: (error "not implemented")
+        [cos]: (error "not implemented")
+    }
+}
+
+?? file: main.fisp
+(import [math] mod)
+(math.add 5 3) ?? exits with a code of 8
